@@ -13,11 +13,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Font Awesome -->
-    <link href="/chat/cdn/all.min.css" rel="stylesheet">
-    <script src="/chat/cdn/all.min.js" crossorigin></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @font-face { font-family: 'Font Awesome 6 Free'; font-path: '/chat/webfonts/fa-regular-400'; src: url('/chat/webfonts/fa-regular-400.woff2') format('woff2'), url('/chat/webfonts/fa-regular-400.ttf') format('truetype'); }
-        @font-face { font-family: 'Font Awesome 6 Free'; font-path: '/chat/webfonts/fa-solid-900'; src: url('/chat/webfonts/fa-solid-900.woff2') format('woff2'), url('/chat/webfonts/fa-solid-900.ttf') format('truetype'); }
         .hidden-field { display: none; }
     </style>
 
@@ -130,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             id: 'exitForm',
             label: 'Audeo Exit Form',
-            pdfUrl: '/pdfs/00-AudeoExitForm-NEW20231Page.pdf',
+            pdfUrl: 'pdfs/audeoexitform.pdf',
             requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'filingDate'],
             fields: {
                 studentFullNameLastFirst: 'Stu last, first',
@@ -142,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             id: 'diplomaNameSheet',
             label: 'Audeo Diploma Name Sheet',
-            pdfUrl: '/pdfs/AudeoDiplomaNameSheet.pdf',
+            pdfUrl: 'pdfs/audeodiplomanamesheet.pdf',
             requiredInputs: ['studentName', 'localId', 'dob', 'resourceCenter', 'studentPhone', 'studentEmail', 'filingDate'],
             fields: {
                 studentFirstName: 'First Name',
@@ -153,13 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 resourceCenter: 'Resource Center_2',
                 studentPhone: 'Phone Number',
                 studentEmail: 'Email Address',
-                filingDate: ['Date_2', 'Date_3'] // Map one input to multiple fields
+                filingDate: ['Date_2', 'Date_3']
             }
         },
         {
             id: 'pathwaysWaiver',
             label: 'Audeo Pathways Portfolio Waiver',
-            pdfUrl: '/pdfs/AudeoPathwaysPortfolioWaiver.pdf',
+            pdfUrl: 'pdfs/audeopathwayswaiver.pdf',
             requiredInputs: ['studentName', 'dob', 'grade', 'localId'],
             fields: {
                 studentFullName: 'Student Name Last First Middle Initial',
@@ -171,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             id: 'option2Referral',
             label: 'Audeo Option 2 Diploma Referral',
-            pdfUrl: '/pdfs/AudeoOption2DiplomaReferral4-9-24.pdf',
+            pdfUrl: 'pdfs/audeooption2referral.pdf',
             requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'dob', 'currentAge', 'teacherRationale', 'filingDate'],
             fields: {
                 studentFullNameLastFirst: 'Student Name Last First',
@@ -186,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             id: 'peExemption',
             label: 'Audeo Physical Education Exemption Request',
-            pdfUrl: '/pdfs/AudeoPhysicalEducationExemptionRequestForm.pdf',
+            pdfUrl: 'pdfs/audeopeexemption.pdf',
             requiredInputs: ['studentName', 'dob', 'grade', 'localId', 'filingDate'],
             fields: {
                 studentFullName: 'Student Name',
@@ -279,7 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const formConfig of selectedForms) {
             try {
                 statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Processing: ${formConfig.label}...`;
-                const pdfBytes = await fetch(formConfig.pdfUrl).then(res => res.arrayBuffer());
+                const pdfBytes = await fetch(formConfig.pdfUrl).then(res => {
+                    if (!res.ok) throw new Error(`Failed to fetch ${formConfig.pdfUrl}: ${res.statusText}`);
+                    return res.arrayBuffer();
+                });
                 const pdfDoc = await PDFDocument.load(pdfBytes);
                 const form = pdfDoc.getForm();
 
@@ -296,7 +296,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 const filledPdfBytes = await pdfDoc.save();
-                const fileName = `${formConfig.label.replace(/\s+/g, '_')}_${formData.studentLastName || 'Student'}.pdf`;
+                
+                // --- UPDATED FILENAME LOGIC ---
+                const studentIdentifier = `${formData.studentLastName || 'Student'}${formData.studentFirstName ? '.' + formData.studentFirstName.charAt(0) : ''}`;
+                const fileName = `${formConfig.label.replace(/\s+/g, '_')}_${studentIdentifier}.pdf`;
+                
                 zip.file(fileName, filledPdfBytes);
             } catch (error) {
                 console.error(`Error processing ${formConfig.label}:`, error);
