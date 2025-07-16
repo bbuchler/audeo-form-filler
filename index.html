@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audeo Form Filler</title>
-    <meta property="og:title" content="Audeo Form Filler">
+    <title>Audeo Withdraw Form Filler</title>
+    <meta property="og:title" content="Audeo Withdraw Form Filler">
     <meta property="og:description" content="Intelligently generate student forms by only filling in the required fields.">
     <meta property="og:type" content="website">
     <link rel="icon" href="https://cdn.simulationtheory.ai/gasset/?asset=sprite&prompt=A%20stylized%20letter%20'A'%20for%20'Audeo'%20in%20a%20blue%20circle%2C%20pixel%20art%20style&w=64&h=64&transparent=true&style=pixel_art">
@@ -32,20 +32,22 @@
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans antialiased">
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
         <header class="text-center mb-8">
-            <!-- Logo Image Added Here -->
-            <img src="altusaudeo.png" alt="Altus Schools Audeo Logo" class="h-20 mx-auto mb-4"><img src="altusaudeo.png" alt="Altus Schools Audeo Logo" style="height: 5rem; margin: auto auto 1rem auto;">
-            <h1 class="title-font text-4xl sm:text-5xl font-bold text-gray-800 dark:text-gray-200">Audeo Form Filler</h1>
-            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">A smart form that adapts to your needs.</p>
+            <!-- Corrected Logo -->
+            <img src="altusaudeo.png" alt="Altus Schools Audeo Logo" style="height: 5rem; margin: auto auto 1rem auto;">
+            
+            <!-- Corrected Title and Color -->
+            <h1 class="title-font text-4xl sm:text-5xl font-bold text-blue-700">Altus Schools Audeo Withdraw Form Filler</h1>
+            <p class="mt-2 text-lg text-gray-600">A smart form that adapts to your needs.</p>
         </header>
 
         <main>
             <!-- Step 1: Form Selection -->
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
-                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
+            <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 pb-4 flex items-center">
                     <i class="fas fa-tasks mr-3 text-blue-500"></i>
                     Step 1: Select Forms to Generate
                 </h2>
@@ -55,8 +57,8 @@
             </div>
 
             <!-- Step 2: Dynamic Student Information Form -->
-            <div id="student-info-section" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8 hidden-field">
-                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
+            <div id="student-info-section" class="bg-white p-6 rounded-xl shadow-lg mb-8 hidden-field">
+                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 pb-4 flex items-center">
                     <i class="fas fa-user-edit mr-3 text-blue-500"></i>
                     Step 2: Fill in Required Information
                 </h2>
@@ -64,64 +66,64 @@
                     <div id="field-container-studentName" class="hidden-field md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
                         <div>
                             <label for="studentFirstName" class="block text-sm font-medium">First Name</label>
-                            <input type="text" id="studentFirstName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="John">
+                            <input type="text" id="studentFirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="John">
                         </div>
                         <div>
                             <label for="studentMiddleName" class="block text-sm font-medium">Middle Name</label>
-                            <input type="text" id="studentMiddleName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Michael">
+                            <input type="text" id="studentMiddleName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="Michael">
                         </div>
                         <div>
                             <label for="studentLastName" class="block text-sm font-medium">Last Name</label>
-                            <input type="text" id="studentLastName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Doe">
+                            <input type="text" id="studentLastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="Doe">
                         </div>
                     </div>
                     <div id="field-container-localId" class="hidden-field">
                         <label for="localId" class="block text-sm font-medium">Local ID</label>
-                        <input type="text" id="localId" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="123456789">
+                        <input type="text" id="localId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="123456789">
                     </div>
                     <div id="field-container-filingDate" class="hidden-field">
                         <label for="filingDate" class="block text-sm font-medium">Filing Date (for all forms)</label>
-                        <input type="date" id="filingDate" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
+                        <input type="date" id="filingDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50">
                     </div>
                     <div id="field-container-dob" class="hidden-field">
                         <label for="dob" class="block text-sm font-medium">Date of Birth</label>
-                        <input type="date" id="dob" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
+                        <input type="date" id="dob" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50">
                     </div>
                     <div id="field-container-grade" class="hidden-field">
                         <label for="grade" class="block text-sm font-medium">Grade</label>
-                        <input type="text" id="grade" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="12">
+                        <input type="text" id="grade" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="12">
                     </div>
                     <div id="field-container-teacherName" class="hidden-field">
                         <label for="teacherName" class="block text-sm font-medium">Teacher Name</label>
-                        <input type="text" id="teacherName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Jane Smith">
+                        <input type="text" id="teacherName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="Jane Smith">
                     </div>
                     <div id="field-container-resourceCenter" class="hidden-field">
                         <label for="resourceCenter" class="block text-sm font-medium">Resource Center</label>
-                        <input type="text" id="resourceCenter" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="La Jolla">
+                        <input type="text" id="resourceCenter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="La Jolla">
                     </div>
                     <div id="field-container-studentPhone" class="hidden-field">
                         <label for="studentPhone" class="block text-sm font-medium">Student Phone</label>
-                        <input type="tel" id="studentPhone" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="(555) 555-5555">
+                        <input type="tel" id="studentPhone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="(555) 555-5555">
                     </div>
                     <div id="field-container-studentEmail" class="hidden-field">
                         <label for="studentEmail" class="block text-sm font-medium">Student Email</label>
-                        <input type="email" id="studentEmail" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="student@example.com">
+                        <input type="email" id="studentEmail" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="student@example.com">
                     </div>
                     <div id="field-container-currentAge" class="hidden-field">
                         <label for="currentAge" class="block text-sm font-medium">Current Age</label>
-                        <input type="number" id="currentAge" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="17">
+                        <input type="number" id="currentAge" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="17">
                     </div>
                     <div id="field-container-newSchoolPlan" class="hidden-field">
                         <label for="newSchoolPlan" class="block text-sm font-medium">New School/PHS Plan</label>
-                        <input type="text" id="newSchoolPlan" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="La Jolla High School">
+                        <input type="text" id="newSchoolPlan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="La Jolla High School">
                     </div>
                     <div id="field-container-reasonForTransfer" class="hidden-field md:col-span-2">
                         <label for="reasonForTransfer" class="block text-sm font-medium">Reason for Transfer</label>
-                        <textarea id="reasonForTransfer" rows="2" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="PPEP Met"></textarea>
+                        <textarea id="reasonForTransfer" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50" placeholder="PPEP Met"></textarea>
                     </div>
                     <div id="field-container-teacherRationale" class="hidden-field md:col-span-2">
                         <label for="teacherRationale" class="block text-sm font-medium">Teacher Rationale for Recommendation</label>
-                        <textarea id="teacherRationale" rows="3" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700"></textarea>
+                        <textarea id="teacherRationale" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50"></textarea>
                     </div>
                 </form>
             </div>
@@ -132,7 +134,7 @@
                     <i class="fas fa-cogs mr-3"></i>
                     Generate Documents
                 </button>
-                <div id="status" class="mt-4 text-gray-600 dark:text-gray-400 h-6"></div>
+                <div id="status" class="mt-4 text-gray-600 h-6"></div>
             </div>
         </main>
     </div>
@@ -250,9 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INITIALIZATION ---
     function initializeApp() {
         formSelectionContainer.innerHTML = FORMS_CONFIG.map(form => `
-            <div class="flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+            <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <input id="${form.id}" name="${form.id}" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                <label for="${form.id}" class="ml-3 block text-md font-medium text-gray-800 dark:text-gray-200">${form.label}</label>
+                <label for="${form.id}" class="ml-3 block text-md font-medium text-gray-800">${form.label}</label>
             </div>
         `).join('');
 
