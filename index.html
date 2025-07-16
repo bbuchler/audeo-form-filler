@@ -14,8 +14,18 @@
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Font for Logo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+
     <style>
         .hidden-field { display: none; }
+        /* Custom style to apply the font */
+        .title-font {
+            font-family: 'Cormorant Garamond', serif;
+        }
     </style>
 
     <!-- PDF & Zip Libraries -->
@@ -26,7 +36,10 @@
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">Audeo Form Filler</h1>
+            <!-- Logo Image Added Here -->
+            <img src="altusaudeo.png" alt="Altus Schools Audeo Logo" class="h-20 mx-auto mb-4">
+            
+            <h1 class="title-font text-4xl sm:text-5xl font-bold text-gray-800 dark:text-gray-200">Audeo Form Filler</h1>
             <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">A smart form that adapts to your needs.</p>
         </header>
 
@@ -49,7 +62,6 @@
                     Step 2: Fill in Required Information
                 </h2>
                 <form id="student-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                    <!-- All fields start hidden. JS will un-hide them as needed. -->
                     <div id="field-container-studentName" class="hidden-field md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
                         <div>
                             <label for="studentFirstName" class="block text-sm font-medium">First Name</label>
