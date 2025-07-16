@@ -1,338 +1,376 @@
+Of course, Baptiste. Saving a backup is a smart move.
+
+I've updated the code to change the placeholder text as you requested.
+
+- Resource Center placeholder is now "La Jolla".
+- New School/PHS Plan placeholder is now "La Jolla High School".
+- Reason for Transfer placeholder is now "PPEP Met".
+
+Here is the complete, updated 
+
+```
+index.html
+```
+
+ code. Replace the entire file with this.
+
+html
+
+FileEditView
+
+Copy
+
+Focus
+
+```
 <!DOCTYPE html> 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audeo Form Filler</title>
-    <meta property="og:title" content="Audeo Form Filler">
-    <meta property="og:description" content="Intelligently generate student forms by only filling in the required fields.">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://cdn.simulationtheory.ai/gasset/?asset=sprite&prompt=A%20stylized%20letter%20'A'%20for%20'Audeo'%20in%20a%20blue%20circle%2C%20pixel%20art%20style&w=64&h=64&transparent=true&style=pixel_art">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audeo Form Filler</title>
+<meta property="og:title" content="Audeo Form Filler">
+<meta property="og:description" content="Intelligently generate student forms by only filling in the required fields.">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://cdn.simulationtheory.ai/gasset/?asset=sprite&prompt=A%20stylized%20letter%20'A'%20for%20'Audeo'%20in%20a%20blue%20circle%2C%20pixel%20art%20style&w=64&h=64&transparent=true&style=pixel_art">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .hidden-field { display: none; }
-    </style>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+    .hidden-field { display: none; }
+</style>
 
-    <!-- PDF & Zip Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- PDF & Zip Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans antialiased">
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">Audeo Form Filler</h1>
-            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">A smart form that adapts to your needs.</p>
-        </header>
+<div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
+    <header class="text-center mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">Audeo Form Filler</h1>
+        <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">A smart form that adapts to your needs.</p>
+    </header>
 
-        <main>
-            <!-- Step 1: Form Selection -->
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
-                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
-                    <i class="fas fa-tasks mr-3 text-blue-500"></i>
-                    Step 1: Select Forms to Generate
-                </h2>
-                <div id="form-selection" class="space-y-4">
-                    <!-- Checkboxes will be inserted here by JS -->
+    <main>
+        <!-- Step 1: Form Selection -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
+                <i class="fas fa-tasks mr-3 text-blue-500"></i>
+                Step 1: Select Forms to Generate
+            </h2>
+            <div id="form-selection" class="space-y-4">
+                <!-- Checkboxes will be inserted here by JS -->
+            </div>
+        </div>
+
+        <!-- Step 2: Dynamic Student Information Form -->
+        <div id="student-info-section" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8 hidden-field">
+            <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
+                <i class="fas fa-user-edit mr-3 text-blue-500"></i>
+                Step 2: Fill in Required Information
+            </h2>
+            <form id="student-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                <!-- All fields start hidden. JS will un-hide them as needed. -->
+                <div id="field-container-studentName" class="hidden-field md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
+                    <div>
+                        <label for="studentFirstName" class="block text-sm font-medium">First Name</label>
+                        <input type="text" id="studentFirstName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="John">
+                    </div>
+                    <div>
+                        <label for="studentMiddleName" class="block text-sm font-medium">Middle Name</label>
+                        <input type="text" id="studentMiddleName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Michael">
+                    </div>
+                    <div>
+                        <label for="studentLastName" class="block text-sm font-medium">Last Name</label>
+                        <input type="text" id="studentLastName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Doe">
+                    </div>
                 </div>
-            </div>
+                <div id="field-container-localId" class="hidden-field">
+                    <label for="localId" class="block text-sm font-medium">Local ID</label>
+                    <input type="text" id="localId" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="123456789">
+                </div>
+                <div id="field-container-filingDate" class="hidden-field">
+                    <label for="filingDate" class="block text-sm font-medium">Filing Date (for all forms)</label>
+                    <input type="date" id="filingDate" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
+                </div>
+                <div id="field-container-dob" class="hidden-field">
+                    <label for="dob" class="block text-sm font-medium">Date of Birth</label>
+                    <input type="date" id="dob" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
+                </div>
+                <div id="field-container-grade" class="hidden-field">
+                    <label for="grade" class="block text-sm font-medium">Grade</label>
+                    <input type="text" id="grade" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="12">
+                </div>
+                <div id="field-container-teacherName" class="hidden-field">
+                    <label for="teacherName" class="block text-sm font-medium">Teacher Name</label>
+                    <input type="text" id="teacherName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Jane Smith">
+                </div>
+                <div id="field-container-resourceCenter" class="hidden-field">
+                    <label for="resourceCenter" class="block text-sm font-medium">Resource Center</label>
+                    <input type="text" id="resourceCenter" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="La Jolla">
+                </div>
+                <div id="field-container-studentPhone" class="hidden-field">
+                    <label for="studentPhone" class="block text-sm font-medium">Student Phone</label>
+                    <input type="tel" id="studentPhone" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="(555) 555-5555">
+                </div>
+                <div id="field-container-studentEmail" class="hidden-field">
+                    <label for="studentEmail" class="block text-sm font-medium">Student Email</label>
+                    <input type="email" id="studentEmail" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="student@example.com">
+                </div>
+                <div id="field-container-currentAge" class="hidden-field">
+                    <label for="currentAge" class="block text-sm font-medium">Current Age</label>
+                    <input type="number" id="currentAge" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="17">
+                </div>
+                <div id="field-container-newSchoolPlan" class="hidden-field">
+                    <label for="newSchoolPlan" class="block text-sm font-medium">New School/PHS Plan</label>
+                    <input type="text" id="newSchoolPlan" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="La Jolla High School">
+                </div>
+                <div id="field-container-reasonForTransfer" class="hidden-field md:col-span-2">
+                    <label for="reasonForTransfer" class="block text-sm font-medium">Reason for Transfer</label>
+                    <textarea id="reasonForTransfer" rows="2" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="PPEP Met"></textarea>
+                </div>
+                <div id="field-container-teacherRationale" class="hidden-field md:col-span-2">
+                    <label for="teacherRationale" class="block text-sm font-medium">Teacher Rationale for Recommendation</label>
+                    <textarea id="teacherRationale" rows="3" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700"></textarea>
+                </div>
+            </form>
+        </div>
 
-            <!-- Step 2: Dynamic Student Information Form -->
-            <div id="student-info-section" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8 hidden-field">
-                <h2 class="text-2xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-700 pb-4 flex items-center">
-                    <i class="fas fa-user-edit mr-3 text-blue-500"></i>
-                    Step 2: Fill in Required Information
-                </h2>
-                <form id="student-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                    <!-- All fields start hidden. JS will un-hide them as needed. -->
-                    <div id="field-container-studentName" class="hidden-field md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
-                        <div>
-                            <label for="studentFirstName" class="block text-sm font-medium">First Name</label>
-                            <input type="text" id="studentFirstName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="John">
-                        </div>
-                        <div>
-                            <label for="studentMiddleName" class="block text-sm font-medium">Middle Name</label>
-                            <input type="text" id="studentMiddleName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Michael">
-                        </div>
-                        <div>
-                            <label for="studentLastName" class="block text-sm font-medium">Last Name</label>
-                            <input type="text" id="studentLastName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Doe">
-                        </div>
-                    </div>
-                    <div id="field-container-localId" class="hidden-field">
-                        <label for="localId" class="block text-sm font-medium">Local ID</label>
-                        <input type="text" id="localId" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="123456789">
-                    </div>
-                    <div id="field-container-filingDate" class="hidden-field">
-                        <label for="filingDate" class="block text-sm font-medium">Filing Date (for all forms)</label>
-                        <input type="date" id="filingDate" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
-                    </div>
-                    <div id="field-container-dob" class="hidden-field">
-                        <label for="dob" class="block text-sm font-medium">Date of Birth</label>
-                        <input type="date" id="dob" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700">
-                    </div>
-                    <div id="field-container-grade" class="hidden-field">
-                        <label for="grade" class="block text-sm font-medium">Grade</label>
-                        <input type="text" id="grade" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="12">
-                    </div>
-                    <div id="field-container-teacherName" class="hidden-field">
-                        <label for="teacherName" class="block text-sm font-medium">Teacher Name</label>
-                        <input type="text" id="teacherName" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Jane Smith">
-                    </div>
-                    <div id="field-container-resourceCenter" class="hidden-field md:col-span-2">
-                        <label for="resourceCenter" class="block text-sm font-medium">Resource Center</label>
-                        <input type="text" id="resourceCenter" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="Audeo Charter School">
-                    </div>
-                    <div id="field-container-studentPhone" class="hidden-field">
-                        <label for="studentPhone" class="block text-sm font-medium">Student Phone</label>
-                        <input type="tel" id="studentPhone" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="(555) 555-5555">
-                    </div>
-                    <div id="field-container-studentEmail" class="hidden-field">
-                        <label for="studentEmail" class="block text-sm font-medium">Student Email</label>
-                        <input type="email" id="studentEmail" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="student@example.com">
-                    </div>
-                    <div id="field-container-currentAge" class="hidden-field">
-                        <label for="currentAge" class="block text-sm font-medium">Current Age</label>
-                        <input type="number" id="currentAge" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700" placeholder="17">
-                    </div>
-                    <div id="field-container-teacherRationale" class="hidden-field md:col-span-2">
-                        <label for="teacherRationale" class="block text-sm font-medium">Teacher Rationale for Recommendation</label>
-                        <textarea id="teacherRationale" rows="3" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm p-2 bg-gray-50 dark:bg-gray-700"></textarea>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Action Button & Status -->
-            <div class="text-center">
-                <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300 text-lg flex items-center justify-center mx-auto">
-                    <i class="fas fa-cogs mr-3"></i>
-                    Generate Documents
-                </button>
-                <div id="status" class="mt-4 text-gray-600 dark:text-gray-400 h-6"></div>
-            </div>
-        </main>
-    </div>
+        <!-- Action Button & Status -->
+        <div class="text-center">
+            <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300 text-lg flex items-center justify-center mx-auto">
+                <i class="fas fa-cogs mr-3"></i>
+                Generate Documents
+            </button>
+            <div id="status" class="mt-4 text-gray-600 dark:text-gray-400 h-6"></div>
+        </div>
+    </main>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const { PDFDocument } = PDFLib;
+const { PDFDocument } = PDFLib;
 
-    // --- MASTER CONFIGURATION ---
-    const FORMS_CONFIG = [
-        {
-            id: 'exitForm',
-            label: 'Audeo Exit Form',
-            pdfUrl: 'pdfs/audeoexitform.pdf',
-            requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'filingDate'],
-            fields: {
-                studentFullNameLastFirst: 'Stu last, first',
-                resourceCenter: 'Resource Center',
-                teacherName: 'Teacher Name',
-                filingDate: 'Exit Date'
-            }
-        },
-        {
-            id: 'diplomaNameSheet',
-            label: 'Audeo Diploma Name Sheet',
-            pdfUrl: 'pdfs/audeodiplomanamesheet.pdf',
-            requiredInputs: ['studentName', 'localId', 'dob', 'resourceCenter', 'studentPhone', 'studentEmail', 'filingDate'],
-            fields: {
-                studentFirstName: 'First Name',
-                studentMiddleName: 'Middle Name or Initial',
-                studentLastName: 'Last Name',
-                localId: 'Local ID_2',
-                dob: 'Date of Birth',
-                resourceCenter: 'Resource Center_2',
-                studentPhone: 'Phone Number',
-                studentEmail: 'Email Address',
-                filingDate: ['Date_2', 'Date_3']
-            }
-        },
-        {
-            id: 'pathwaysWaiver',
-            label: 'Audeo Pathways Portfolio Waiver',
-            pdfUrl: 'pdfs/audeopathwayswaiver.pdf',
-            requiredInputs: ['studentName', 'dob', 'grade', 'localId'],
-            fields: {
-                studentFullName: 'Student Name Last First Middle Initial',
-                dob: 'Date of Birth',
-                grade: 'Grade',
-                localId: 'undefined'
-            }
-        },
-        {
-            id: 'option2Referral',
-            label: 'Audeo Option 2 Diploma Referral',
-            pdfUrl: 'pdfs/audeooption2referral.pdf',
-            requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'dob', 'currentAge', 'teacherRationale', 'filingDate'],
-            fields: {
-                studentFullNameLastFirst: 'Student Name Last First',
-                resourceCenter: 'Resource Center',
-                teacherName: 'Teacher Name',
-                dob: 'Date of Birth',
-                currentAge: 'Current Age',
-                teacherRationale: 'Teacher Raonale for RecommendaonRow1',
-                filingDate: ['Date', 'Date_2', 'Date_3']
-            }
-        },
-        {
-            id: 'peExemption',
-            label: 'Audeo Physical Education Exemption Request',
-            pdfUrl: 'pdfs/audeopeexemption.pdf',
-            requiredInputs: ['studentName', 'dob', 'grade', 'localId', 'filingDate'],
-            fields: {
-                studentFullName: 'Student Name',
-                dob: 'DOB',
-                grade: 'Grade',
-                localId: 'Local ID',
-                filingDate: ['Date', 'Date_2', 'Date_3', 'Date_4']
-            }
+// --- MASTER CONFIGURATION ---
+const FORMS_CONFIG = [
+    {
+        id: 'exitForm',
+        label: 'Audeo Exit Form',
+        pdfUrl: 'pdfs/audeoexitform.pdf',
+        requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'filingDate', 'newSchoolPlan', 'reasonForTransfer'],
+        fields: {
+            studentFullNameLastFirst: 'Stu last, first',
+            resourceCenter: 'Resource Center',
+            teacherName: 'Teacher Name',
+            filingDate: 'Exit Date',
+            newSchoolPlan: 'New School/ PHS Plan',
+            reasonForTransfer: 'Reason for Transfer'
         }
-    ];
+    },
+    {
+        id: 'diplomaNameSheet',
+        label: 'Audeo Diploma Name Sheet',
+        pdfUrl: 'pdfs/audeodiplomanamesheet.pdf',
+        requiredInputs: ['studentName', 'localId', 'dob', 'resourceCenter', 'studentPhone', 'studentEmail', 'filingDate'],
+        fields: {
+            studentFirstName: 'First Name',
+            studentMiddleName: 'Middle Name or Initial',
+            studentLastName: 'Last Name',
+            localId: 'Local ID_2',
+            dob: 'Date of Birth',
+            resourceCenter: 'Resource Center_2',
+            studentPhone: 'Phone Number',
+            studentEmail: 'Email Address',
+            filingDate: ['Date_2', 'Date_3']
+        }
+    },
+    {
+        id: 'pathwaysWaiver',
+        label: 'Audeo Pathways Portfolio Waiver',
+        pdfUrl: 'pdfs/audeopathwayswaiver.pdf',
+        requiredInputs: ['studentName', 'dob', 'grade', 'localId'],
+        fields: {
+            studentFullName: 'Student Name Last First Middle Initial',
+            dob: 'Date of Birth',
+            grade: 'Grade',
+            localId: 'undefined'
+        }
+    },
+    {
+        id: 'option2Referral',
+        label: 'Audeo Option 2 Diploma Referral',
+        pdfUrl: 'pdfs/audeooption2referral.pdf',
+        requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'dob', 'currentAge', 'teacherRationale', 'filingDate'],
+        fields: {
+            studentFullNameLastFirst: 'Student Name Last First',
+            resourceCenter: 'Resource Center',
+            teacherName: 'Teacher Name',
+            dob: 'Date of Birth',
+            currentAge: 'Current Age',
+            teacherRationale: 'Teacher Raonale for RecommendaonRow1',
+            filingDate: ['Date', 'Date_2', 'Date_3']
+        }
+    },
+    {
+        id: 'peExemption',
+        label: 'Audeo Physical Education Exemption Request',
+        pdfUrl: 'pdfs/audeopeexemption.pdf',
+        requiredInputs: ['studentName', 'dob', 'grade', 'localId', 'filingDate'],
+        fields: {
+            studentFullName: 'Student Name',
+            dob: 'DOB',
+            grade: 'Grade',
+            localId: 'Local ID',
+            filingDate: ['Date', 'Date_2', 'Date_3', 'Date_4']
+        }
+    }
+];
 
-    // --- DOM ELEMENTS ---
-    const formSelectionContainer = document.getElementById('form-selection');
-    const studentInfoSection = document.getElementById('student-info-section');
-    const generateBtn = document.getElementById('generate-btn');
-    const statusDiv = document.getElementById('status');
+// --- DOM ELEMENTS ---
+const formSelectionContainer = document.getElementById('form-selection');
+const studentInfoSection = document.getElementById('student-info-section');
+const generateBtn = document.getElementById('generate-btn');
+const statusDiv = document.getElementById('status');
 
-    // --- DYNAMIC UI LOGIC ---
-    function updateVisibleFields() {
-        const requiredInputs = new Set();
-        let anyBoxChecked = false;
+// --- DYNAMIC UI LOGIC ---
+function updateVisibleFields() {
+    const requiredInputs = new Set();
+    let anyBoxChecked = false;
 
-        FORMS_CONFIG.forEach(form => {
-            const checkbox = document.getElementById(form.id);
-            if (checkbox && checkbox.checked) {
-                anyBoxChecked = true;
-                form.requiredInputs.forEach(inputKey => requiredInputs.add(inputKey));
-            }
-        });
+    FORMS_CONFIG.forEach(form => {
+        const checkbox = document.getElementById(form.id);
+        if (checkbox && checkbox.checked) {
+            anyBoxChecked = true;
+            form.requiredInputs.forEach(inputKey => requiredInputs.add(inputKey));
+        }
+    });
 
-        studentInfoSection.classList.toggle('hidden-field', !anyBoxChecked);
+    studentInfoSection.classList.toggle('hidden-field', !anyBoxChecked);
 
-        const allPossibleFields = new Set(FORMS_CONFIG.flatMap(f => f.requiredInputs));
-        allPossibleFields.forEach(fieldKey => {
-            const container = document.getElementById(`field-container-${fieldKey}`);
-            if (container) {
-                container.classList.toggle('hidden-field', !requiredInputs.has(fieldKey));
-            }
-        });
+    const allPossibleFields = new Set(FORMS_CONFIG.flatMap(f => f.requiredInputs));
+
+    allPossibleFields.forEach(fieldKey => {
+        const container = document.getElementById(`field-container-${fieldKey}`);
+        if (container) {
+            container.classList.toggle('hidden-field', !requiredInputs.has(fieldKey));
+        }
+    });
+}
+
+// --- INITIALIZATION ---
+function initializeApp() {
+    formSelectionContainer.innerHTML = FORMS_CONFIG.map(form => `
+        <div class="flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+            <input id="${form.id}" name="${form.id}" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            <label for="${form.id}" class="ml-3 block text-md font-medium text-gray-800 dark:text-gray-200">${form.label}</label>
+        </div>
+    `).join('');
+
+    formSelectionContainer.addEventListener('change', updateVisibleFields);
+}
+
+// --- CORE GENERATION LOGIC ---
+async function handleGeneration() {
+    generateBtn.disabled = true;
+    generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Starting process...`;
+
+    const formData = {
+        studentFirstName: document.getElementById('studentFirstName').value.trim(),
+        studentMiddleName: document.getElementById('studentMiddleName').value.trim(),
+        studentLastName: document.getElementById('studentLastName').value.trim(),
+        localId: document.getElementById('localId').value.trim(),
+        filingDate: document.getElementById('filingDate').value,
+        dob: document.getElementById('dob').value,
+        grade: document.getElementById('grade').value.trim(),
+        teacherName: document.getElementById('teacherName').value.trim(),
+        resourceCenter: document.getElementById('resourceCenter').value.trim(),
+        studentPhone: document.getElementById('studentPhone').value.trim(),
+        studentEmail: document.getElementById('studentEmail').value.trim(),
+        currentAge: document.getElementById('currentAge').value.trim(),
+        teacherRationale: document.getElementById('teacherRationale').value.trim(),
+        newSchoolPlan: document.getElementById('newSchoolPlan').value.trim(),
+        reasonForTransfer: document.getElementById('reasonForTransfer').value.trim(),
+    };
+
+    formData.studentFullName = [formData.studentFirstName, formData.studentMiddleName, formData.studentLastName].filter(Boolean).join(' ');
+    formData.studentFullNameLastFirst = [formData.studentLastName, formData.studentFirstName].filter(Boolean).join(', ');
+
+    const formatDate = (dateStr) => dateStr ? new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { timeZone: 'UTC' }) : '';
+    formData.dob = formatDate(formData.dob);
+    formData.filingDate = formatDate(formData.filingDate);
+
+    const selectedForms = FORMS_CONFIG.filter(form => document.getElementById(form.id).checked);
+    if (selectedForms.length === 0) {
+        statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>Please select at least one form.`;
+        resetButton(); return;
     }
 
-    // --- INITIALIZATION ---
-    function initializeApp() {
-        formSelectionContainer.innerHTML = FORMS_CONFIG.map(form => `
-            <div class="flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
-                <input id="${form.id}" name="${form.id}" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                <label for="${form.id}" class="ml-3 block text-md font-medium text-gray-800 dark:text-gray-200">${form.label}</label>
-            </div>
-        `).join('');
+    const zip = new JSZip();
+    for (const formConfig of selectedForms) {
+        try {
+            statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Processing: ${formConfig.label}...`;
+            const pdfBytes = await fetch(formConfig.pdfUrl).then(res => {
+                if (!res.ok) throw new Error(`Failed to fetch ${formConfig.pdfUrl}: ${res.statusText}`);
+                return res.arrayBuffer();
+            });
+            const pdfDoc = await PDFDocument.load(pdfBytes);
+            const form = pdfDoc.getForm();
 
-        formSelectionContainer.addEventListener('change', updateVisibleFields);
-    }
-
-    // --- CORE GENERATION LOGIC ---
-    async function handleGeneration() {
-        generateBtn.disabled = true;
-        generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Starting process...`;
-
-        const formData = {
-            studentFirstName: document.getElementById('studentFirstName').value.trim(),
-            studentMiddleName: document.getElementById('studentMiddleName').value.trim(),
-            studentLastName: document.getElementById('studentLastName').value.trim(),
-            localId: document.getElementById('localId').value.trim(),
-            filingDate: document.getElementById('filingDate').value,
-            dob: document.getElementById('dob').value,
-            grade: document.getElementById('grade').value.trim(),
-            teacherName: document.getElementById('teacherName').value.trim(),
-            resourceCenter: document.getElementById('resourceCenter').value.trim(),
-            studentPhone: document.getElementById('studentPhone').value.trim(),
-            studentEmail: document.getElementById('studentEmail').value.trim(),
-            currentAge: document.getElementById('currentAge').value.trim(),
-            teacherRationale: document.getElementById('teacherRationale').value.trim(),
-        };
-
-        formData.studentFullName = [formData.studentFirstName, formData.studentMiddleName, formData.studentLastName].filter(Boolean).join(' ');
-        formData.studentFullNameLastFirst = [formData.studentLastName, formData.studentFirstName].filter(Boolean).join(', ');
-        
-        const formatDate = (dateStr) => dateStr ? new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { timeZone: 'UTC' }) : '';
-        formData.dob = formatDate(formData.dob);
-        formData.filingDate = formatDate(formData.filingDate);
-
-        const selectedForms = FORMS_CONFIG.filter(form => document.getElementById(form.id).checked);
-        if (selectedForms.length === 0) {
-            statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>Please select at least one form.`;
-            resetButton(); return;
-        }
-
-        const zip = new JSZip();
-        for (const formConfig of selectedForms) {
-            try {
-                statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Processing: ${formConfig.label}...`;
-                const pdfBytes = await fetch(formConfig.pdfUrl).then(res => {
-                    if (!res.ok) throw new Error(`Failed to fetch ${formConfig.pdfUrl}: ${res.statusText}`);
-                    return res.arrayBuffer();
-                });
-                const pdfDoc = await PDFDocument.load(pdfBytes);
-                const form = pdfDoc.getForm();
-
-                for (const [dataKey, pdfFieldNames] of Object.entries(formConfig.fields)) {
-                    if (formData[dataKey] !== undefined && formData[dataKey] !== '') {
-                        const names = Array.isArray(pdfFieldNames) ? pdfFieldNames : [pdfFieldNames];
-                        for (const pdfFieldName of names) {
-                            try {
-                                form.getTextField(pdfFieldName).setText(formData[dataKey]);
-                            } catch (e) {
-                                console.warn(`Field "${pdfFieldName}" not found or failed to fill in "${formConfig.label}".`);
-                            }
+            for (const [dataKey, pdfFieldNames] of Object.entries(formConfig.fields)) {
+                if (formData[dataKey] !== undefined && formData[dataKey] !== '') {
+                    const names = Array.isArray(pdfFieldNames) ? pdfFieldNames : [pdfFieldNames];
+                    for (const pdfFieldName of names) {
+                        try {
+                            form.getTextField(pdfFieldName).setText(formData[dataKey]);
+                        } catch (e) {
+                            console.warn(`Field "${pdfFieldName}" not found or failed to fill in "${formConfig.label}".`);
                         }
                     }
                 }
-                const filledPdfBytes = await pdfDoc.save();
-                
-                // --- UPDATED FILENAME LOGIC ---
-                const studentIdentifier = `${formData.studentLastName || 'Student'}${formData.studentFirstName ? '.' + formData.studentFirstName.charAt(0) : ''}`;
-                const fileName = `${formConfig.label.replace(/\s+/g, '_')}_${studentIdentifier}.pdf`;
-                
-                zip.file(fileName, filledPdfBytes);
-            } catch (error) {
-                console.error(`Error processing ${formConfig.label}:`, error);
-                statusDiv.innerHTML = `<i class="fas fa-times-circle text-red-500 mr-2"></i>Error with ${formConfig.label}. Check console.`;
-                resetButton(); return;
             }
+            const filledPdfBytes = await pdfDoc.save();
+
+            const studentIdentifier = `${formData.studentLastName || 'Student'}${formData.studentFirstName ? '.' + formData.studentFirstName.charAt(0) : ''}`;
+            const fileName = `${formConfig.label.replace(/\s+/g, '_')}_${studentIdentifier}.pdf`;
+
+            zip.file(fileName, filledPdfBytes);
+        } catch (error) {
+            console.error(`Error processing ${formConfig.label}:`, error);
+            statusDiv.innerHTML = `<i class="fas fa-times-circle text-red-500 mr-2"></i>Error with ${formConfig.label}. Check console.`;
+            resetButton(); return;
         }
-
-        statusDiv.innerHTML = `<i class="fas fa-archive mr-2"></i>Zipping files...`;
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const downloadUrl = URL.createObjectURL(zipBlob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = downloadUrl;
-        a.download = `Audeo_Forms_${formData.studentLastName || 'Student'}_${new Date().toISOString().split('T')[0]}.zip`;
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(downloadUrl);
-        a.remove();
-        statusDiv.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>Successfully generated documents!`;
-        resetButton();
     }
 
-    function resetButton() {
-        generateBtn.disabled = false;
-        generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-    }
+    statusDiv.innerHTML = `<i class="fas fa-archive mr-2"></i>Zipping files...`;
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const downloadUrl = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = downloadUrl;
+    a.download = `Audeo_Forms_${formData.studentLastName || 'Student'}_${new Date().toISOString().split('T')[0]}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(downloadUrl);
+    a.remove();
+    statusDiv.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>Successfully generated documents!`;
+    resetButton();
+}
 
-    generateBtn.addEventListener('click', handleGeneration);
-    initializeApp();
+function resetButton() {
+    generateBtn.disabled = false;
+    generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+}
+
+generateBtn.addEventListener('click', handleGeneration);
+initializeApp();
 });
 </script>
 
 </body>
 </html>
+```
