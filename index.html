@@ -36,8 +36,8 @@
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
         <header class="text-center mb-8">
-            <!-- Corrected Logo -->
-            <img src="altusaudeo.png" alt="Altus Schools Audeo Logo" style="height: 15rem; margin: auto auto 3rem auto;">
+            <!-- UPDATED LOGO -->
+            <img src="altusaudeolarge.png" alt="Altus Schools Audeo Logo" style="height: 5rem; margin: auto auto 1rem auto;">
             
             <!-- Corrected Title and Color -->
             <h1 class="title-font text-4xl sm:text-5xl font-bold text-blue-700">Altus Schools Audeo Withdraw Form Filler</h1>
@@ -85,7 +85,6 @@
                         <label for="filingDate" class="block text-sm font-medium">Filing Date (for all forms)</label>
                         <input type="date" id="filingDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50">
                     </div>
-                    <!-- NEW EXIT DATE FIELD -->
                     <div id="field-container-exitDate" class="hidden-field">
                         <label for="exitDate" class="block text-sm font-medium">Exit Date (for Exit Form)</label>
                         <input type="date" id="exitDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50">
@@ -154,13 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'exitForm',
             label: 'Audeo Exit Form',
             pdfUrl: 'pdfs/audeoexitform.pdf',
-            // UPDATED requiredInputs for Exit Form
             requiredInputs: ['studentName', 'resourceCenter', 'teacherName', 'exitDate', 'newSchoolPlan', 'reasonForTransfer'],
             fields: {
                 studentFullNameLastFirst: 'Stu last, first',
                 resourceCenter: 'Resource Center',
                 teacherName: 'Teacher Name',
-                // UPDATED field mapping to use new exitDate
                 exitDate: 'Exit Date', 
                 newSchoolPlan: 'New School/ PHS Plan',
                 reasonForTransfer: 'Reason for Transfer'
@@ -246,7 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         studentInfoSection.classList.toggle('hidden-field', !anyBoxChecked);
 
-        // ADDED 'exitDate' to the list of all possible fields
         const allPossibleFields = new Set(FORMS_CONFIG.flatMap(f => f.requiredInputs).concat(['exitDate']));
         
         allPossibleFields.forEach(fieldKey => {
@@ -281,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
             studentLastName: document.getElementById('studentLastName').value.trim(),
             localId: document.getElementById('localId').value.trim(),
             filingDate: document.getElementById('filingDate').value,
-            exitDate: document.getElementById('exitDate').value, // ADDED new exitDate value
+            exitDate: document.getElementById('exitDate').value,
             dob: document.getElementById('dob').value,
             grade: document.getElementById('grade').value.trim(),
             teacherName: document.getElementById('teacherName').value.trim(),
@@ -300,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formatDate = (dateStr) => dateStr ? new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { timeZone: 'UTC' }) : '';
         formData.dob = formatDate(formData.dob);
         formData.filingDate = formatDate(formData.filingDate);
-        formData.exitDate = formatDate(formData.exitDate); // ADDED formatting for new exitDate
+        formData.exitDate = formatDate(formData.exitDate);
 
         const selectedForms = FORMS_CONFIG.filter(form => document.getElementById(form.id).checked);
         if (selectedForms.length === 0) {
